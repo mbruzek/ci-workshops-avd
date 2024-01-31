@@ -23,7 +23,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$Xk0RdvVi8hjqfY4pZ18ASaTRjxuBFAHb6wE1IAbaPNtyu.CCdIQiwQq7yn/aoYk8uBGnHvVN9nZqGvpitq1Ta0
+  sha512_password: $6$workshop$q0DTjNWTaQBtWIJfOJUl/5U/pKxKLRPD7aEaawNVul1UaCdAAfi4yqQFgAGqUDX9MyrNElqNMvMUHU6thbAR10
 vrfs:
 - name: default
   ip_routing: false
@@ -55,6 +55,9 @@ vlans:
   tenant: MY_FABRIC
 - id: 20
   name: Twenty
+  tenant: MY_FABRIC
+- id: 24
+  name: Twenty four
   tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
@@ -88,6 +91,15 @@ vlan_interfaces:
   ip_address: 10.20.20.2/24
   ip_virtual_router_addresses:
   - 10.20.20.1
+- name: Vlan24
+  tenant: MY_FABRIC
+  tags:
+  - App
+  description: Twenty four
+  shutdown: false
+  ip_address: 10.24.24.2/24
+  ip_virtual_router_addresses:
+  - 10.24.24.1
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s1-spine2_Po1
@@ -109,7 +121,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '20'
+  vlans: 20,24
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1

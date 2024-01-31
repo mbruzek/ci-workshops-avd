@@ -274,6 +274,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | Ten | - |
 | 20 | Twenty | - |
+| 24 | Twenty four | - |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
 
@@ -286,6 +287,9 @@ vlan 10
 !
 vlan 20
    name Twenty
+!
+vlan 24
+   name Twenty four
 !
 vlan 4093
    name LEAF_PEER_L3
@@ -309,8 +313,8 @@ vlan 4094
 | Ethernet1 | MLAG_PEER_s1-spine1_Ethernet1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 | Ethernet2 | S1-LEAF1_Ethernet3 | *trunk | *10 | *- | *- | 2 |
 | Ethernet3 | S1-LEAF2_Ethernet3 | *trunk | *10 | *- | *- | 2 |
-| Ethernet4 | S1-LEAF3_Ethernet3 | *trunk | *20 | *- | *- | 4 |
-| Ethernet5 | S1-LEAF4_Ethernet3 | *trunk | *20 | *- | *- | 4 |
+| Ethernet4 | S1-LEAF3_Ethernet3 | *trunk | *20,24 | *- | *- | 4 |
+| Ethernet5 | S1-LEAF4_Ethernet3 | *trunk | *20,24 | *- | *- | 4 |
 | Ethernet6 | MLAG_PEER_s1-spine1_Ethernet6 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
@@ -385,7 +389,7 @@ interface Ethernet8
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_s1-spine1_Po1 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 | Port-Channel2 | RACK1_Po2 | switched | trunk | 10 | - | - | - | - | 2 | - |
-| Port-Channel4 | RACK2_Po2 | switched | trunk | 20 | - | - | - | - | 4 | - |
+| Port-Channel4 | RACK2_Po2 | switched | trunk | 20,24 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -411,7 +415,7 @@ interface Port-Channel4
    description RACK2_Po2
    no shutdown
    switchport
-   switchport trunk allowed vlan 20
+   switchport trunk allowed vlan 20,24
    switchport mode trunk
    mlag 4
 ```
@@ -451,6 +455,7 @@ interface Loopback0
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | Ten | default | - | False |
 | Vlan20 | Twenty | default | - | False |
+| Vlan24 | Twenty four | default | - | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
 
@@ -460,6 +465,7 @@ interface Loopback0
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  default  |  10.10.10.3/24  |  -  |  10.10.10.1  |  -  |  -  |  -  |
 | Vlan20 |  default  |  10.20.20.3/24  |  -  |  10.20.20.1  |  -  |  -  |  -  |
+| Vlan24 |  default  |  10.24.24.3/24  |  -  |  10.24.24.1  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.1.254.1/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.1.253.1/31  |  -  |  -  |  -  |  -  |  -  |
 
@@ -478,6 +484,12 @@ interface Vlan20
    no shutdown
    ip address 10.20.20.3/24
    ip virtual-router address 10.20.20.1
+!
+interface Vlan24
+   description Twenty four
+   no shutdown
+   ip address 10.24.24.3/24
+   ip virtual-router address 10.24.24.1
 !
 interface Vlan4093
    description MLAG_PEER_L3_PEERING
